@@ -4,6 +4,12 @@
 # In[1]:
 
 
+from random import randint 
+
+
+# In[2]:
+
+
 def display(board) :
     
     ''' This function displays the board. '''
@@ -15,7 +21,7 @@ def display(board) :
     print(f' {board[7]} | {board[8]} | {board[9]} ')
 
 
-# In[2]:
+# In[3]:
 
 
 def board_help() :
@@ -32,7 +38,7 @@ def board_help() :
     print('\n\n')
 
 
-# In[3]:
+# In[4]:
 
 
 def clear() :
@@ -40,7 +46,7 @@ def clear() :
     print('\n\n'*100)
 
 
-# In[4]:
+# In[5]:
 
 
 def players() :
@@ -57,7 +63,7 @@ def players() :
     p1_mark = str()
     while p1_mark not in marks :
             print(f'Hi {p1_name} ! Please select your mark [X/O] : ')
-            p1_mark = str(input())
+            p1_mark = str(input()).upper()
     
     marks.remove(p1_mark)
     
@@ -75,7 +81,7 @@ def players() :
     
 
 
-# In[5]:
+# In[6]:
 
 
 def wincheck(gboard,mark) :
@@ -93,7 +99,17 @@ def wincheck(gboard,mark) :
     
 
 
-# In[6]:
+# In[7]:
+
+
+def who_plays() :
+    
+    who = randint(1,2)
+    return who 
+    
+
+
+# In[8]:
 
 
 def game() :
@@ -104,18 +120,30 @@ def game() :
     p1n,p2n,p1m,p2m = players()
     
     ### Player flag : which player is playing ### odd number player 1 , even number player 2 ###
-    pflag = 1
+    pflag = who_plays()
+    if pflag == 1 :
+        print(f'Player {p1n} plays first !')
+    else :
+        print(f'Player {p2n} plays first !')
     
     ### Board ###
     gboard = ['#',' ',' ',' ',' ',' ',' ',' ',' ',' ']
     
     ### Game ###
     def play(name,mark) :
-        print(f'{name}\'s chance : Enter grid number to mark {mark} : ')
+        print(f'{name}\'s chance : Enter grid number to mark {mark} [0-9] : ')
+        
+        ### Out of bounds check ###
+        grid_int = int(input())
+        while  grid_int > 9 or grid_int < 1:
+                print('\n')
+                print(f'Enter a number between 0-9 only !')
+                print(f'{name}\'s chance : Enter grid number to mark {mark} [0-9] : ') 
+                grid_int = int(input())
         
         ### Check if mark already exists ###
-        grid_int = int(input())
         while gboard[grid_int] != ' ' :
+                print('\n')
                 print(f'Mark {gboard[grid_int]} is already present at this grid number !! ')
                 print(f'{name}\'s chance : Enter another grid number to mark {mark} : ')
                 grid_int = int(input())
@@ -146,13 +174,13 @@ def game() :
                     break
                 pflag += 1
                 
-    #return True   #Game over
+    #Game over
                 
             
            
 
 
-# In[7]:
+# In[9]:
 
 
 def main() :
@@ -166,14 +194,14 @@ def main() :
     
     ### Start ###
     print('Are you ready to play the game ? : [Y/N] ')
-    start = str(input())
+    start = str(input()).upper()
     
     while True :
-        if start.lower() not in {'n','no','y','yes'} :
+        if start not in {'N','NO','Y','YES'} :
             print('Wrong Input. Enter either Y or N : ')
             start = str(input())
             continue
-        elif start.lower() in {'n','no'} :
+        elif start in {'N','NO'} :
             print('Bye. Have a nice day !!!')
             break
         else : 
@@ -185,8 +213,20 @@ def main() :
         
 
 
+# In[ ]:
 
 
 main()
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
 
 
