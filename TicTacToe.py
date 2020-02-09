@@ -104,6 +104,7 @@ def wincheck(gboard,mark) :
 
 def who_plays() :
     
+    ''' This function is for random selection of player. '''
     who = randint(1,2)
     return who 
     
