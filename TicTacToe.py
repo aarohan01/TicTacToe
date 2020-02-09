@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 from random import randint 
 
 
-# In[2]:
+# In[ ]:
 
 
 def display(board) :
@@ -21,7 +21,7 @@ def display(board) :
     print(f' {board[7]} | {board[8]} | {board[9]} ')
 
 
-# In[3]:
+# In[ ]:
 
 
 def board_help() :
@@ -29,7 +29,7 @@ def board_help() :
     ''' This function is to inform users about the gameplay. '''
     
     print('How to play : \n')
-    print('Game will be played betwwen two players.')
+    print('Game will be played between two players.')
     print('Board is 3 X 3 grid. Each spot is numbered as follows : \n')
     display(['#',1,2,3,4,5,6,7,8,9])
     print('\n')
@@ -38,7 +38,7 @@ def board_help() :
     print('\n\n')
 
 
-# In[4]:
+# In[ ]:
 
 
 def clear() :
@@ -46,7 +46,7 @@ def clear() :
     print('\n\n'*100)
 
 
-# In[5]:
+# In[ ]:
 
 
 def players() :
@@ -81,7 +81,7 @@ def players() :
     
 
 
-# In[6]:
+# In[ ]:
 
 
 def wincheck(gboard,mark) :
@@ -99,7 +99,7 @@ def wincheck(gboard,mark) :
     
 
 
-# In[7]:
+# In[ ]:
 
 
 def who_plays() :
@@ -109,7 +109,7 @@ def who_plays() :
     
 
 
-# In[8]:
+# In[ ]:
 
 
 def game() :
@@ -120,25 +120,31 @@ def game() :
     p1n,p2n,p1m,p2m = players()
     
     ### Player flag : which player is playing ### odd number player 1 , even number player 2 ###
+    p1n_f,p2n_f = False,False
+    
     pflag = who_plays()
     if pflag == 1 :
         print(f'Player {p1n} plays first !')
+        p1n_f = True              #Flag of player
     else :
         print(f'Player {p2n} plays first !')
+        p2n_f = True
+    
+    
     
     ### Board ###
     gboard = ['#',' ',' ',' ',' ',' ',' ',' ',' ',' ']
     
     ### Game ###
     def play(name,mark) :
-        print(f'{name}\'s chance : Enter grid number to mark {mark} [0-9] : ')
+        print(f'{name}\'s chance : Enter grid number to mark {mark} [1-9] : ')
         
         ### Out of bounds check ###
         grid_int = int(input())
         while  grid_int > 9 or grid_int < 1:
                 print('\n')
                 print(f'Enter a number between 0-9 only !')
-                print(f'{name}\'s chance : Enter grid number to mark {mark} [0-9] : ') 
+                print(f'{name}\'s chance : Enter grid number to mark {mark} [1-9] : ') 
                 grid_int = int(input())
         
         ### Check if mark already exists ###
@@ -162,9 +168,12 @@ def game() :
     
     while True :
             
-            if pflag == 10 :
+            if p1n_f and pflag == 10  : #If player 1 played first then pflag will reach upto 10 i.e 9 chances [1 to 10]
                 print('Nobody won !!!')
-                break      
+                break    
+            elif p2n_f and pflag == 11 : #If player 2 played first then pflag will reach upto 11 i.e 9 chances [2 to 11]
+                print('Nobody won !!!')
+                break                   
             elif pflag%2 != 0 :
                 if play(p1n,p1m) :
                     break
@@ -180,7 +189,7 @@ def game() :
            
 
 
-# In[9]:
+# In[ ]:
 
 
 def main() :
