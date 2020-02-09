@@ -144,7 +144,7 @@ def game() :
         grid_int = int(input())
         while  grid_int > 9 or grid_int < 1:
                 print('\n')
-                print(f'Enter a number between 0-9 only !')
+                print(f'Enter a number between 1-9 only !')
                 print(f'{name}\'s chance : Enter grid number to mark {mark} [1-9] : ') 
                 grid_int = int(input())
         
