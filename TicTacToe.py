@@ -209,7 +209,7 @@ def main() :
     while True :
         if start not in {'N','NO','Y','YES'} :
             print('Wrong Input. Enter either Y or N : ')
-            start = str(input())
+            start = str(input()).upper()
             continue
         elif start in {'N','NO'} :
             print('Bye. Have a nice day !!!')
@@ -217,8 +217,9 @@ def main() :
         else : 
             game()
             print('Want to replay ? : [Y/N] ')
-            start = str(input())
-            
+            start = str(input()).upper()
+    
+
     
         
 
@@ -227,12 +228,6 @@ def main() :
 
 
 main()
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:
