@@ -40,7 +40,7 @@ def board_help():
     print('Board is 3 X 3 grid. Each spot is numbered as follows : \n')
     display(['#', 1, 2, 3, 4, 5, 6, 7, 8, 9])
     print('\n')
-    print('Each player will get a chance to mark the board with X or O , by entering the spot number. ')
+    print('Each player will get a chance to mark the board with X or O, by entering grid number. ')
     print('Player with three consecutive marks [ X or O ] wins !!!')
     print('\n\n')
 
@@ -64,8 +64,17 @@ def players():
     clear()
 
     ### Intro ###
-    print('Player 1 : Enter name')
-    p1_name = str(input())
+    while True:
+        print('Player 1 : Enter name')
+        try:
+            p1_name = str(input())
+            if p1_name == '':
+                raise ValueError
+        except ValueError:
+            print('Name cannot be blank.')
+        else:
+            break
+
     p1_mark = str()
     while p1_mark not in marks:
         print(f'Hi {p1_name} ! Please select your mark [X/O] : ')
@@ -73,8 +82,17 @@ def players():
 
     marks.remove(p1_mark)
 
-    print('Player 2 : Enter name')
-    p2_name = str(input())
+    while True:
+        print('Player 2 : Enter name')
+        try:
+            p2_name = str(input())
+            if p2_name in {'', p1_name}:
+                raise ValueError
+        except ValueError:
+            print('Name cannot be blank or same.')
+        else:
+            break
+
     p2_mark = marks[0]
     clear()
 
@@ -153,7 +171,7 @@ def game():
                 grid_int = int(input())
                 if grid_int not in range(1, 10):
                     raise ValueError
-            except BaseException:
+            except ValueError:
                 print('\n')
                 print(f'Enter a number between 1-9 only !')
                 print(
@@ -235,13 +253,13 @@ def main():
 # In[ ]:
 
 
-### This is to convert ipynb files to py if run in Jupyter notebook ###
+##### This is to convert ipynb files to py if run in Jupyter notebook ###
 try:
-    terminal = get_ipython().__class__.__name__
+    TERMINAL = get_ipython().__class__.__name__
 except Exception:
     pass
 else:
-    if get_ipython().__class__.__name__ == 'ZMQInteractiveShell':
+    if TERMINAL == 'ZMQInteractiveShell':
         get_ipython().system('jupyter nbconvert --to script TicTacToe.ipynb')
         get_ipython().system('pylint TicTacToe.py')
         get_ipython().system('autopep8 --in-place --aggressive TicTacToe.py')
