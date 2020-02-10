@@ -1,19 +1,27 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
+
+
+'''
+TicTacToe game.
+
+'''
+
+
+# In[2]:
 
 
 from random import randint
 
 
-# In[ ]:
+# In[3]:
 
 
 def display(board):
-    
     ''' This function displays the board. '''
-    
+
     print(f' {board[1]} | {board[2]} | {board[3]} ')
     print(f'---|---|---')
     print(f' {board[4]} | {board[5]} | {board[6]} ')
@@ -21,13 +29,12 @@ def display(board):
     print(f' {board[7]} | {board[8]} | {board[9]} ')
 
 
-# In[ ]:
+# In[4]:
 
 
 def board_help():
-    
     ''' This function is to inform users about the gameplay. '''
-    
+
     print('How to play : \n')
     print('Game will be played between two players.')
     print('Board is 3 X 3 grid. Each spot is numbered as follows : \n')
@@ -38,153 +45,165 @@ def board_help():
     print('\n\n')
 
 
-# In[ ]:
+# In[5]:
 
 
 def clear():
     ''' This function is to clear the screen. '''
-    print('\n\n'*100)
+    print('\n\n' * 100)
 
 
-# In[ ]:
+# In[6]:
 
 
 def players():
-    
     ''' This function is to store user names and marks. '''
     marks = ['X', 'O']
-    
+
     ### Clear screen ###
-    clear()   
-    
+    clear()
+
     ### Intro ###
-    print('Player 1 : Enter name') 
+    print('Player 1 : Enter name')
     p1_name = str(input())
     p1_mark = str()
     while p1_mark not in marks:
-            print(f'Hi {p1_name} ! Please select your mark [X/O] : ')
-            p1_mark = str(input()).upper()
-    
+        print(f'Hi {p1_name} ! Please select your mark [X/O] : ')
+        p1_mark = str(input()).upper()
+
     marks.remove(p1_mark)
-    
-    
-    print('Player 2 : Enter name') 
+
+    print('Player 2 : Enter name')
     p2_name = str(input())
     p2_mark = marks[0]
     clear()
-    
+
     ### Print info ###
     print(f'{p1_name} : {p1_mark} ')
     print(f'{p2_name} : {p2_mark} ')
-    
+
     return (p1_name, p2_name, p1_mark, p2_mark)
 
 
-# In[ ]:
+# In[7]:
 
 
 def wincheck(gboard, mark):
-    
     ''' This function is to check winning condition. '''
 
-    patterns = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
-    
+    patterns = [
+        [
+            1, 2, 3], [
+            4, 5, 6], [
+                7, 8, 9], [
+                    1, 4, 7], [
+                        2, 5, 8], [
+                            3, 6, 9], [
+                                1, 5, 9], [
+                                    3, 5, 7]]
+
     for pattern in patterns:
-        if gboard[pattern[0]] == gboard[pattern[1]] == gboard[pattern[2]] == mark:
+        if gboard[pattern[0]] == gboard[pattern[1]
+                                        ] == gboard[pattern[2]] == mark:
             return True
-        
-    
-    return False  # If no matches 
+
+    return False  # If no matches
 
 
-# In[ ]:
+# In[8]:
 
 
 def who_plays():
-    
     ''' This function is for random selection of player. '''
     who = randint(1, 2)
-    return who     
+    return who
 
 
-# In[ ]:
+# In[9]:
 
 
 def game():
-    
     ''' This function is the gameplay. '''
-    
+
     ### Players info ###
     p1n, p2n, p1m, p2m = players()
-    
-    ### Player flag : which player is playing ### odd number player 1 , even number player 2 ###
+
+    # Player flag : which player is playing ### odd number player 1 , even
+    # number player 2 ###
     p1n_f, p2n_f = False, False
-    
+
     pflag = who_plays()
     if pflag == 1:
         print(f'Player {p1n} plays first !')
-        p1n_f = True              #Flag of player
+        p1n_f = True  # Flag of player
     else:
         print(f'Player {p2n} plays first !')
         p2n_f = True
-    
-    
-    
+
     ### Board ###
     gboard = ['#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-    
+
     ### Game ###
     def play(name, mark):
         print(f'{name}\'s chance : Enter grid number to mark {mark} [1-9] : ')
-        
-        ### Out of bounds check ###
-        grid_int = int(input())
-        while  grid_int > 9 or grid_int < 1:
+
+        ### Out of bounds check ### ValueError check ###
+        while True:
+            try:
+                grid_int = int(input())
+                if grid_int not in range(1, 10):
+                    raise ValueError
+            except BaseException:
                 print('\n')
                 print(f'Enter a number between 1-9 only !')
-                print(f'{name}\'s chance : Enter grid number to mark {mark} [1-9] : ') 
-                grid_int = int(input())
-        
+                print(
+                    f'{name}\'s chance : Enter grid number to mark {mark} [1-9] : ')
+            else:
+                break
+
         ### Check if mark already exists ###
         while gboard[grid_int] != ' ':
-                print('\n')
-                print(f'Mark {gboard[grid_int]} is already present at this grid number !! ')
-                print(f'{name}\'s chance : Enter another grid number to mark {mark} : ')
-                grid_int = int(input())
-                      
-        ### Set board ###              
+            print('\n')
+            print(
+                f'Mark {gboard[grid_int]} is already present at this grid number !! ')
+            print(f'{name}\'s chance : Enter another grid number to mark {mark} : ')
+            grid_int = int(input())
+
+        ### Set board ###
         gboard[grid_int] = mark
         clear()
-        #print(gboard)   #prints the gboard array to debug 
+        # print(gboard)   #prints the gboard array to debug
         display(gboard)
         if wincheck(gboard, mark):
             print('\n')
             print(f'Player {name} wins !!! Congratulations !!!')
             return True
-        
-    
-    
+
     while True:
-            
-            if p1n_f and pflag == 10: #If player 1 played first then pflag will reach upto 10 i.e 9 chances [1 to 10]
-                print('Nobody won !!!')
-                break    
-            elif p2n_f and pflag == 11: #If player 2 played first then pflag will reach upto 11 i.e 9 chances [2 to 11]
-                print('Nobody won !!!')
-                break                   
-            elif pflag%2 != 0:
-                if play(p1n, p1m):
-                    break
-                pflag += 1
-            else:
-                if play(p2n, p2m):
-                    break
-                pflag += 1
-                
-    #Game over          
+
+        # If player 1 played first then pflag will reach upto 10 i.e 9 chances
+        # [1 to 10]
+        if p1n_f and pflag == 10:
+            print('Nobody won !!!')
+            break
+        # If player 2 played first then pflag will reach upto 11 i.e 9 chances
+        # [2 to 11]
+        elif p2n_f and pflag == 11:
+            print('Nobody won !!!')
+            break
+        elif pflag % 2 != 0:
+            if play(p1n, p1m):
+                break
+            pflag += 1
+        else:
+            if play(p2n, p2m):
+                break
+            pflag += 1
+
+    # Game over
 
 
-# In[ ]:
+# In[10]:
 
 
 def main():
@@ -203,7 +222,7 @@ def main():
         if start not in {'N', 'NO', 'Y', 'YES'}:
             print('Wrong Input. Enter either Y or N : ')
             start = str(input()).upper()
-            continue
+            # continue  # no need of continue as it will loop anyway
         elif start in {'N', 'NO'}:
             print('Bye. Have a nice day !!!')
             break
@@ -216,5 +235,20 @@ def main():
 # In[ ]:
 
 
-main()
+### This is to convert ipynb files to py if run in Jupyter notebook ###
+try:
+    terminal = get_ipython().__class__.__name__
+except Exception:
+    pass
+else:
+    if get_ipython().__class__.__name__ == 'ZMQInteractiveShell':
+        get_ipython().system('jupyter nbconvert --to script TicTacToe.ipynb')
+        get_ipython().system('pylint TicTacToe.py')
+        get_ipython().system('autopep8 --in-place --aggressive TicTacToe.py')
+        get_ipython().system('pylint TicTacToe.py  ')
+finally:
+    if __name__ == "__main__":
+        main()
 
+
+# In[ ]:
